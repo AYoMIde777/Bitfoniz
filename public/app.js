@@ -88,6 +88,7 @@ window.submitAuth = async function () {
     const res = await fetch(`${API_BASE_URL}${path}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include", // REQUIRED: Sends and receives cookies across domains
       body: JSON.stringify(payload),
     });
 
@@ -116,7 +117,10 @@ window.submitAuth = async function () {
 // Logout Handler
 window.logoutUser = async function () {
   try {
-    await fetch("/api/auth/logout", { method: "POST" });
+    await fetch(`${API_BASE_URL}/api/auth/logout`, { 
+      method: "POST",
+      credentials: "include" 
+    });
   } catch (err) {
     console.error("Logout request failed", err);
   }
@@ -127,7 +131,9 @@ window.logoutUser = async function () {
 window.handlePortalClick = async function (portalType) {
   window.targetPortal = portalType;
   try {
-    const res = await fetch(`${API_BASE_URL}/api/user/profile`);
+    const res = await fetch(`${API_BASE_URL}/api/user/profile`, {
+      credentials: "include" // REQUIRED: Includes cookie so backend recognizes session
+    });
     if (res.ok) {
       const user = await res.json();
       if (portalType === "admin") {
