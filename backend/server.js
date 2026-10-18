@@ -3,23 +3,23 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
 
 const User = require("./models/User");
 
 const app = express();
-const cors = require("cors");
+const PORT = process.env.PORT || 5000;
+const JWT_SECRET = process.env.JWT_SECRET || "bitfoniz_institutional_secret_2026";
 
+// CORS Configuration for Netlify <-> Render Cross-Domain Setup
 app.use(
   cors({
-    origin: true, // Or put your exact Netlify frontend URL here
-    credentials: true, // MANDATORY so your JWT authentication cookie can be sent back and forth
-  }),
+    origin: true, // Dynamically allows your Netlify frontend origin
+    credentials: true, // REQUIRED for cookies/JWT sessions across domains
+  })
 );
-const PORT = process.env.PORT || 5000;
-const JWT_SECRET =
-  process.env.JWT_SECRET || "bitfoniz_institutional_secret_2026";
 
 app.use(express.json());
 app.use(cookieParser());
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(
-  express.static(path.join(__dirname, "../public"), { extensions: ["html"] }),
+  express.static(path.join(__dirname, "../public"), { extensions: ["html"] })
 );
 
 // MongoDB Connection
@@ -84,9 +84,15 @@ app.post("/api/auth/register", async (req, res) => {
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
       JWT_SECRET,
-      { expiresIn: "1d" },
+      { expiresIn: "1d" }
     );
-    res.cookie("token", token, { httpOnly: true });
+    
+    // Configured with cross-site support
+    res.cookie("token", token, { 
+      httpOnly: true,
+      secure: true,   // Required for cross-site HTTPS
+      sameSite: "none" // Required for Netlify to Render cookie passing
+    });
 
     res.json({
       message: "Account created successfully!",
@@ -112,11 +118,14 @@ app.post("/api/auth/login", async (req, res) => {
     const token = jwt.sign(
       { id: user._id, email: user.email, isAdmin: user.isAdmin },
       JWT_SECRET,
-      { expiresIn: "1d" },
+      { expiresIn: "1d" }
     );
+
+    // FIXED: secure: true and sameSite: "none" so browsers allow the cookie across Netlify and Render
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
+      sameSite: "none",
       maxAge: 86400000,
     });
 
@@ -137,7 +146,10 @@ app.post("/api/auth/login", async (req, res) => {
 });
 
 app.post("/api/auth/logout", (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    secure: true,
+    sameSite: "none"
+  });
   res.json({ message: "Logged out successfully" });
 });
 
@@ -156,11 +168,9 @@ app.post("/api/user/deposit", verifyToken, async (req, res) => {
   try {
     const { amount, cryptoType, txHash } = req.body;
     if (!amount || !cryptoType || !txHash) {
-      return res
-        .status(400)
-        .json({
-          error: "Please provide amount, crypto type, and transaction hash.",
-        });
+      return res.status(400).json({
+        error: "Please provide amount, crypto type, and transaction hash.",
+      });
     }
 
     const user = await User.findById(req.user.id);
@@ -225,7 +235,7 @@ app.put(
     } catch (err) {
       res.status(500).json({ error: "Server error approving deposit" });
     }
-  },
+  }
 );
 
 app.listen(PORT, () => console.log(`Bitfoniz server running on port ${PORT}`));
