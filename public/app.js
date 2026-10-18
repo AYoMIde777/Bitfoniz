@@ -21,7 +21,7 @@ window.openAuthModal = function (mode = "signup") {
 };
 
 window.openAdminModal = function () {
-  window.targetPortal = "admin"; // Explicitly flag that admin portal was requested
+  window.targetPortal = "admin";
   openAuthModal("login");
   const emailInput = document.getElementById("authEmail");
   if (emailInput) emailInput.value = "admin@bitfoniz.com";
@@ -36,42 +36,6 @@ window.toggleAuthMode = function () {
   isLoginMode = !isLoginMode;
   openAuthModal(isLoginMode ? "login" : "signup");
 };
-
-// Public Homepage Initializations (Calculator, etc.)
-document.addEventListener("DOMContentLoaded", () => {
-  const amtInput = document.getElementById("investmentAmount");
-  const durSelect = document.getElementById("investmentDuration");
-  const projRet = document.getElementById("projectedReturn");
-  const withAmt = document.getElementById("withdrawableAmount");
-
-  function calc() {
-    let val = parseFloat(amtInput?.value) || 12000;
-    if (val < 12000) val = 12000;
-    const months = parseInt(durSelect?.value || 6);
-    const total = val * Math.pow(1 + 0.035, months);
-    const buffer = total * 0.22;
-    if (projRet)
-      projRet.textContent =
-        "$" +
-        total.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
-    if (withAmt)
-      withAmt.textContent =
-        "$" +
-        buffer.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
-  }
-
-  if (amtInput && durSelect) {
-    amtInput.addEventListener("input", calc);
-    durSelect.addEventListener("change", calc);
-    calc();
-  }
-});
 
 // Authentication Handler
 window.submitAuth = async function () {
@@ -88,14 +52,13 @@ window.submitAuth = async function () {
     const res = await fetch(`${API_BASE_URL}${path}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include", // REQUIRED: Sends and receives cookies across domains
+      credentials: "include",
       body: JSON.stringify(payload),
     });
 
     const data = await res.json();
 
     if (res.ok) {
-      // Secure redirection based on administrative privileges or target gateway
       if (
         data.isAdmin ||
         window.targetPortal === "admin" ||
@@ -127,37 +90,6 @@ window.logoutUser = async function () {
   window.location.href = "/";
 };
 
-// Smart Portal Gateway Handler (Triggered from Top Nav / Footer)
-window.handlePortalClick = async function (portalType) {
-  window.targetPortal = portalType;
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/user/profile`, {
-      credentials: "include" // REQUIRED: Includes cookie so backend recognizes session
-    });
-    if (res.ok) {
-      const user = await res.json();
-      if (portalType === "admin") {
-        if (user.isAdmin) {
-          window.location.href = "/admin-portal.html";
-        } else {
-          alert("Access Restricted: You are logged in as a regular client.");
-          window.location.href = "/client-portal.html";
-        }
-      } else {
-        if (user.isAdmin) {
-          window.location.href = "/admin-portal.html";
-        } else {
-          window.location.href = "/client-portal.html";
-        }
-      }
-    } else {
-      openAuthModal("login");
-    }
-  } catch (err) {
-    openAuthModal("login");
-  }
-};
-
 // Password Toggle
 window.togglePasswordVisibility = function () {
   const passwordInput = document.getElementById("authPassword");
@@ -172,24 +104,62 @@ window.togglePasswordVisibility = function () {
   }
 };
 
-// Support Chat Toggle Handler
+// --- Interactive Support Chat Logic ---
 window.toggleSupportChat = function () {
-  let chatModal = document.getElementById("supportChatModal");
-  
-  if (!chatModal) {
-    chatModal = document.createElement("div");
-    chatModal.id = "supportChatModal";
-    chatModal.style.cssText = "position: fixed; bottom: 20px; right: 20px; width: 320px; background: #fff; border: 1px solid var(--border-color); border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 1000; padding: 20px; font-family: 'Plus Jakarta Sans', sans-serif;";
-    chatModal.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
-        <h4 style="margin: 0; color: var(--primary-deep); font-size: 1rem;"><i class="fa-solid fa-headset"></i> Bitfoniz Support Desk</h4>
-        <button onclick="document.getElementById('supportChatModal').style.display='none'" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted);">&times;</button>
-      </div>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Our institutional desk is active. Send your inquiry directly to our compliance officers:</p>
-      <a href="mailto:support@bitfoniz.com" class="btn btn-primary" style="display: block; text-align: center; text-decoration: none; padding: 10px; font-size: 0.85rem; border-radius: 8px;">Email Support Desk</a>
-    `;
-    document.body.appendChild(chatModal);
-  } else {
-    chatModal.style.display = chatModal.style.display === "none" ? "block" : "none";
+  const chatWindow = document.getElementById("supportChatWindow");
+  if (chatWindow) {
+    chatWindow.style.display = chatWindow.style.display === "none" ? "flex" : "none";
   }
 };
+
+window.sendUserMessage = function () {
+  const input = document.getElementById("chatUserInput");
+  const text = input.value.trim();
+  if (!text) return;
+
+  appendChatMessage(text, "user-message");
+  input.value = "";
+
+  // Auto-respond simulation after brief delay
+  setTimeout(() => {
+    generateBotResponse(text);
+  }, 600);
+};
+
+window.sendQuickPrompt = function (promptText) {
+  appendChatMessage(promptText, "user-message");
+  setTimeout(() => {
+    generateBotResponse(promptText);
+  }, 600);
+};
+
+window.handleChatKeyPress = function (event) {
+  if (event.key === "Enter") {
+    sendUserMessage();
+  }
+};
+
+function appendChatMessage(text, className) {
+  const chatBody = document.getElementById("chatBody");
+  if (!chatBody) return;
+  const msgDiv = document.createElement("div");
+  msgDiv.className = `chat-message ${className}`;
+  msgDiv.textContent = text;
+  chatBody.appendChild(msgDiv);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function generateBotResponse(query) {
+  let reply = "Thank you for reaching out to Bitfoniz Holdings. Our compliance desk is reviewing your request. You can also reach us via email at support@bitfoniz.com.";
+  
+  const q = query.toLowerCase();
+  if (q.includes("minimum") || q.includes("$12k") || q.includes("12000")) {
+    reply = "The minimum investment capital requirement at Bitfoniz Holdings starts at $12,000 to ensure stable asset-backed agro allocation.";
+  } else if (q.includes("22%") || q.includes("withdrawal") || q.includes("liquidity")) {
+    reply = "Bitfoniz provides a 22% flexible liquidity buffer allowing you to withdraw a portion of your funds anytime without penalty.";
+  } else if (q.includes("crypto") || q.includes("payout") || q.includes("deposit")) {
+    reply = "You can securely deposit or request crypto payouts (USDT TRC20, Bitcoin, Ethereum) directly through your Client Portal after logging in.";
+  }
+
+  appendChatMessage(reply, "bot-message");
+}

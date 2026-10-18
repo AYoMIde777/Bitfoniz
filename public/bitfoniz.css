@@ -28,6 +28,7 @@ html {
 
 body {
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 a {
@@ -123,7 +124,7 @@ ul {
     margin-bottom: 10px;
 }
 
-/* --- Top Bar --- */
+/* --- Top Bar & Header --- */
 .top-bar {
     background-color: var(--primary-deep);
     color: #fff;
@@ -135,18 +136,16 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .top-bar-left, .top-bar-right {
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
-.top-bar a:hover {
-    color: var(--primary-light);
-}
-
-/* --- Header / Nav --- */
 .header {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
@@ -197,7 +196,7 @@ ul {
 
 .navbar {
     display: flex;
-    gap: 32px;
+    gap: 24px;
 }
 
 .navbar a {
@@ -213,7 +212,7 @@ ul {
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
 }
 
 /* --- Hero Section --- */
@@ -221,7 +220,6 @@ ul {
     position: relative;
     padding: 80px 0 120px;
     background: linear-gradient(180deg, #F0F4FF 0%, var(--bg-white) 100%);
-    overflow: hidden;
 }
 
 .hero-grid {
@@ -244,7 +242,7 @@ ul {
 }
 
 .hero-content p {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--text-muted);
     margin-bottom: 30px;
 }
@@ -252,13 +250,13 @@ ul {
 .hero-btns {
     display: flex;
     gap: 16px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 .hero-stats {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 24px;
 }
 
 .stat-item h3 {
@@ -270,7 +268,6 @@ ul {
 .stat-item p {
     font-size: 0.85rem;
     color: var(--text-muted);
-    margin: 0;
 }
 
 .stat-divider {
@@ -347,7 +344,6 @@ ul {
 .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--primary-blue), #3B82F6);
-    border-radius: 4px;
 }
 
 .portfolio-metrics {
@@ -394,7 +390,7 @@ ul {
 
 /* --- Sections & Grids --- */
 .section {
-    padding: 100px 0;
+    padding: 90px 0;
 }
 
 .bg-light {
@@ -404,19 +400,19 @@ ul {
 .text-center {
     text-align: center;
     max-width: 700px;
-    margin: 0 auto 60px;
+    margin: 0 auto 50px;
 }
 
 .section-header h2 {
-    font-size: 2.5rem;
+    font-size: 2.4rem;
     font-weight: 800;
     color: var(--primary-deep);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
 }
 
 .section-header p {
     color: var(--text-muted);
-    font-size: 1.1rem;
+    font-size: 1.05rem;
 }
 
 .grid-3 {
@@ -425,8 +421,8 @@ ul {
     gap: 30px;
 }
 
-/* Feature Cards */
-.feature-card {
+/* Feature Cards & Plans */
+.feature-card, .plan-card {
     background: var(--bg-white);
     border: 1px solid var(--border-color);
     padding: 40px 30px;
@@ -434,10 +430,9 @@ ul {
     transition: var(--transition);
 }
 
-.feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-    border-color: var(--primary-light);
+.feature-card:hover, .plan-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
 }
 
 .feature-icon {
@@ -453,31 +448,10 @@ ul {
     margin-bottom: 24px;
 }
 
-.feature-card h3 {
-    font-size: 1.35rem;
-    font-weight: 700;
-    color: var(--primary-deep);
-    margin-bottom: 14px;
-}
-
-.feature-card p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-}
-
-/* Investment Plan Cards */
-.plan-card {
-    background: var(--bg-white);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 40px 30px;
-    position: relative;
-    transition: var(--transition);
-}
-
 .plan-card.featured {
     border: 2px solid var(--primary-blue);
-    box-shadow: 0 20px 40px rgba(0, 82, 255, 0.1);
+    box-shadow: 0 15px 30px rgba(0, 82, 255, 0.1);
+    position: relative;
 }
 
 .popular-badge {
@@ -496,39 +470,16 @@ ul {
 
 .plan-header {
     text-align: center;
-    margin-bottom: 30px;
-    padding-bottom: 30px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
     border-bottom: 1px solid var(--border-color);
 }
 
-.plan-header h3 {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--primary-deep);
-    margin-bottom: 8px;
-}
-
-.plan-header p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-}
-
 .price-tag h2 {
-    font-size: 2.5rem;
+    font-size: 2.4rem;
     font-weight: 800;
     color: var(--primary-blue);
     margin-bottom: 4px;
-}
-
-.price-tag span {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 600;
-}
-
-.plan-features {
-    margin-bottom: 30px;
 }
 
 .plan-features li {
@@ -537,65 +488,30 @@ ul {
     gap: 12px;
     font-size: 0.95rem;
     color: var(--text-muted);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
 }
 
 .plan-features li i {
     color: #10B981;
-    font-size: 1rem;
 }
 
-/* Calculator Section */
+/* Calculator / Capital Section Wrapper */
 .calculator-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    align-items: center;
     background: var(--primary-deep);
     color: #fff;
-    padding: 60px;
+    padding: 50px;
     border-radius: 24px;
-}
-
-.calc-intro h2 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 20px;
-    color: #fff;
-}
-
-.calc-intro p {
-    color: #94A3B8;
-    margin-bottom: 30px;
-}
-
-.calc-perks {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.perk {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-weight: 600;
-    color: #E2E8F0;
-}
-
-.perk i {
-    color: #10B981;
 }
 
 .calc-card {
     background: #0F2342;
-    padding: 40px;
+    padding: 35px;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
@@ -606,39 +522,20 @@ ul {
     color: #E2E8F0;
 }
 
-.form-group input, .form-group select {
+input, select {
     width: 100%;
     padding: 14px 16px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #FFFFFF !important;
+    border: 1px solid var(--border-color) !important;
     border-radius: var(--radius);
-    color: #fff;
-    font-size: 1.05rem;
+    color: #0F172A !important;
+    font-size: 1rem;
     font-family: inherit;
-}
-
-/* --- Form Inputs & Password Toggle Fix --- */
-input, select {
-    color: #0F172A !important; /* Forces black text color when typing */
-    background-color: #FFFFFF !important;
-}
-
-input::placeholder {
-    color: #94A3B8;
 }
 
 .password-input-wrapper {
     position: relative;
     width: 100%;
-}
-
-.password-input-wrapper input {
-    width: 100%;
-    padding: 12px 42px 12px 14px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: inherit;
 }
 
 .password-toggle-btn {
@@ -651,12 +548,6 @@ input::placeholder {
     cursor: pointer;
     color: var(--text-muted);
     font-size: 1rem;
-    padding: 4px;
-    transition: var(--transition);
-}
-
-.password-toggle-btn:hover {
-    color: var(--primary-blue);
 }
 
 .help-text {
@@ -666,176 +557,90 @@ input::placeholder {
     color: #94A3B8;
 }
 
-.calc-results {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 30px;
-}
-
-.result-box {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 20px;
-    border-radius: var(--radius);
-    text-align: center;
-}
-
-.result-box.highlight {
-    background: rgba(0, 82, 255, 0.2);
-    border: 1px solid var(--primary-light);
-}
-
-.result-box span {
-    display: block;
-    font-size: 0.8rem;
-    color: #94A3B8;
-    margin-bottom: 6px;
-}
-
-.result-box h3 {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: #fff;
-}
-
 /* About Section */
 .about-grid {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
-    gap: 60px;
+    gap: 50px;
     align-items: center;
 }
 
 .image-box {
     width: 100%;
-    height: 400px;
+    height: 360px;
     background: linear-gradient(135deg, var(--primary-deep), var(--primary-blue));
     border-radius: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: rgba(255, 255, 255, 0.8);
-    font-size: 6rem;
-    box-shadow: 0 20px 40px rgba(0, 82, 255, 0.2);
-}
-
-.about-text h2 {
-    font-size: 2.3rem;
-    font-weight: 800;
-    color: var(--primary-deep);
-    margin-bottom: 20px;
-}
-
-.about-text p {
-    color: var(--text-muted);
-    margin-bottom: 20px;
-}
-
-.about-highlights {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 30px;
+    font-size: 5rem;
 }
 
 .highlight-item {
     display: flex;
     gap: 16px;
     align-items: flex-start;
+    margin-top: 20px;
 }
 
 .highlight-item i {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: var(--primary-blue);
     background: var(--accent-glow);
     padding: 12px;
     border-radius: 12px;
 }
 
-.highlight-item h4 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--primary-deep);
-    margin-bottom: 4px;
-}
-
-.highlight-item p {
-    font-size: 0.9rem;
-    margin: 0;
-}
-
 /* Footer */
 .footer {
     background-color: var(--primary-deep);
     color: #fff;
-    padding: 80px 0 30px;
+    padding: 70px 0 30px;
 }
 
 .footer-grid {
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
-    gap: 40px;
-    margin-bottom: 60px;
+    gap: 30px;
+    margin-bottom: 50px;
 }
 
 .footer-col p {
     color: #94A3B8;
     font-size: 0.9rem;
-    margin: 20px 0;
+    margin: 15px 0;
 }
 
 .footer-col h4 {
     font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .footer-col ul {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .footer-col ul a {
     color: #94A3B8;
     font-size: 0.9rem;
-    transition: var(--transition);
-}
-
-.footer-col ul a:hover {
-    color: #fff;
 }
 
 .footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 30px;
+    padding-top: 25px;
     color: #94A3B8;
     font-size: 0.85rem;
 }
-.footer.light-footer .logo-text h2,
-.footer .logo-text h2 {
-    color: #000000 !important;
-}
 
-/* --- Responsive Media Queries --- */
-@media (max-width: 968px) {
-    .hero-grid, .calculator-wrapper, .about-grid, .footer-grid, .grid-3 {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-content h1 {
-        font-size: 2.5rem;
-    }
-    
-    .calculator-wrapper {
-        padding: 30px;
-    }
-}
 /* --- Customer Support Chat Widget Styles --- */
 .support-chat-wrapper {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 25px;
+    right: 25px;
     z-index: 9999;
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
@@ -859,7 +664,6 @@ input::placeholder {
 
 .chat-toggle-btn:hover {
     transform: scale(1.05);
-    background-color: #0040db;
 }
 
 .chat-badge {
@@ -881,29 +685,23 @@ input::placeholder {
 
 .chat-window {
     position: absolute;
-    bottom: 80px;
+    bottom: 75px;
     right: 0;
-    width: 360px;
-    height: 480px;
+    width: 350px;
+    height: 440px;
     background: #fff;
     border-radius: 16px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
     border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 .chat-header {
     background: var(--primary-deep);
     color: #fff;
-    padding: 16px;
+    padding: 14px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -912,12 +710,12 @@ input::placeholder {
 .chat-agent-info {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .agent-avatar {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     display: flex;
@@ -927,22 +725,16 @@ input::placeholder {
 }
 
 .chat-agent-info h4 {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 700;
-}
-
-.chat-agent-info small, .online-indicator {
-    font-size: 0.75rem;
-    color: #94A3B8;
 }
 
 .online-indicator {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     background-color: #10B981;
     border-radius: 50%;
-    box-shadow: 0 0 8px #10B981;
     margin-right: 4px;
 }
 
@@ -956,19 +748,19 @@ input::placeholder {
 
 .chat-body {
     flex: 1;
-    padding: 16px;
+    padding: 14px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     background: #F8FAFC;
 }
 
 .chat-message {
-    max-width: 80%;
-    padding: 12px 14px;
-    border-radius: 12px;
-    font-size: 0.9rem;
+    max-width: 82%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
     line-height: 1.4;
 }
 
@@ -977,56 +769,38 @@ input::placeholder {
     color: var(--text-dark);
     align-self: flex-start;
     border: 1px solid var(--border-color);
-    border-bottom-left-radius: 2px;
 }
 
 .user-message {
     background: var(--primary-blue);
     color: #FFFFFF;
     align-self: flex-end;
-    border-bottom-right-radius: 2px;
 }
 
 .chat-quick-prompts {
     display: flex;
     gap: 6px;
-    padding: 8px 12px;
+    padding: 8px 10px;
     background: #FFFFFF;
     border-top: 1px solid var(--border-color);
     overflow-x: auto;
     white-space: nowrap;
 }
 
-.chat-quick-prompts::-webkit-scrollbar {
-    height: 4px;
-}
-
-.chat-quick-prompts::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 2px;
-}
-
 .chat-quick-prompts button {
     background: var(--bg-light);
     border: 1px solid var(--border-color);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.72rem;
     font-weight: 600;
     color: var(--text-muted);
     cursor: pointer;
-    transition: var(--transition);
-}
-
-.chat-quick-prompts button:hover {
-    background: var(--accent-glow);
-    color: var(--primary-blue);
-    border-color: var(--primary-light);
 }
 
 .chat-input-area {
     display: flex;
-    padding: 12px;
+    padding: 10px;
     background: #FFFFFF;
     border-top: 1px solid var(--border-color);
     gap: 8px;
@@ -1034,146 +808,62 @@ input::placeholder {
 
 .chat-input-area input {
     flex: 1;
-    padding: 10px 14px;
+    padding: 8px 12px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    font-size: 0.9rem;
-    outline: none;
-    color: #0F172A !important;
-    background: #FFFFFF !important;
-}
-
-.chat-input-area input:focus {
-    border-color: var(--primary-blue);
+    font-size: 0.85rem;
 }
 
 .chat-input-area button {
     background: var(--primary-blue);
     color: #fff;
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 8px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: var(--transition);
 }
 
-.chat-input-area button:hover {
-    background: #0040db;
-}
-/* --- Global Responsive Fluidity --- */
-img, video, canvas {
-    max-width: 100%;
-    height: auto;
-}
-
-body {
-    overflow-x: hidden; /* Prevents unwanted horizontal scrollbars on mobile */
-}
-
-/* --- Responsive Table Wrapper for Portfolios & Admin Queues --- */
-.table-responsive, div[style*="overflow-x: auto"] {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* --- Mobile Breakpoints & Adjustments --- */
-@media (max-width: 1024px) {
+/* --- Mobile Responsiveness Adjustments --- */
+@media (max-width: 968px) {
     .hero-grid, 
     .calculator-wrapper, 
     .about-grid, 
     .footer-grid, 
     .grid-3 {
         grid-template-columns: 1fr !important;
-        gap: 30px;
+        gap: 24px;
     }
 
     .hero-content h1 {
-        font-size: 2.6rem;
-    }
-
-    .calculator-wrapper {
-        padding: 40px 20px;
+        font-size: 2.4rem;
     }
 
     .navbar {
-        display: none; /* Can be hooked up to a mobile hamburger menu if desired */
+        display: none;
     }
 }
 
 @media (max-width: 768px) {
-    .top-bar-flex {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-    }
-
-    .top-bar-left, .top-bar-right {
-        justify-content: center;
-        gap: 15px;
-        flex-wrap: wrap;
-    }
-
-    .header .nav-flex {
-        padding: 0 10px;
-    }
-
-    .hero {
-        padding: 40px 0 60px;
+    .container {
+        padding: 0 16px;
     }
 
     .hero-content h1 {
-        font-size: 2.1rem;
+        font-size: 2rem;
     }
 
     .hero-btns {
         flex-direction: column;
-        width: 100%;
     }
 
-    .hero-btns .btn {
-        width: 100%;
-    }
-
-    .hero-stats {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-
-    .stat-divider {
-        display: none;
-    }
-
-    /* Modal padding adjustments for small phones */
-    .modal-card {
-        padding: 24px !important;
-        margin: 0 15px;
-    }
-
-    /* Chat widget mobile adjustments */
     .chat-window {
-        width: 90vw !important;
-        right: 5% !important;
-        height: 420px;
-        bottom: 75px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-content h1 {
-        font-size: 1.8rem;
-    }
-
-    .portfolio-amount h2 {
-        font-size: 1.8rem;
-    }
-
-    .section-header h2 {
-        font-size: 2rem;
+        width: 92vw !important;
+        right: 4% !important;
+        height: 400px;
+        bottom: 70px;
     }
 }
