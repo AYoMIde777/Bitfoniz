@@ -171,3 +171,25 @@ window.togglePasswordVisibility = function () {
     eyeIcon.className = "fa-solid fa-eye";
   }
 };
+
+// Support Chat Toggle Handler
+window.toggleSupportChat = function () {
+  let chatModal = document.getElementById("supportChatModal");
+  
+  if (!chatModal) {
+    chatModal = document.createElement("div");
+    chatModal.id = "supportChatModal";
+    chatModal.style.cssText = "position: fixed; bottom: 20px; right: 20px; width: 320px; background: #fff; border: 1px solid var(--border-color); border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 1000; padding: 20px; font-family: 'Plus Jakarta Sans', sans-serif;";
+    chatModal.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+        <h4 style="margin: 0; color: var(--primary-deep); font-size: 1rem;"><i class="fa-solid fa-headset"></i> Bitfoniz Support Desk</h4>
+        <button onclick="document.getElementById('supportChatModal').style.display='none'" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted);">&times;</button>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Our institutional desk is active. Send your inquiry directly to our compliance officers:</p>
+      <a href="mailto:support@bitfoniz.com" class="btn btn-primary" style="display: block; text-align: center; text-decoration: none; padding: 10px; font-size: 0.85rem; border-radius: 8px;">Email Support Desk</a>
+    `;
+    document.body.appendChild(chatModal);
+  } else {
+    chatModal.style.display = chatModal.style.display === "none" ? "block" : "none";
+  }
+};
