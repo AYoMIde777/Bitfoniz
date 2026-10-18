@@ -102,7 +102,6 @@
         </div>
 
         <!-- Deposit Card -->
-        <!-- Secure Payment Gateway Card -->
         <div
           style="
             background: #fff;
@@ -221,7 +220,9 @@
       // Protect page and load client data on entry
       window.addEventListener("DOMContentLoaded", async () => {
         try {
-          const res = await fetch("/api/user/profile");
+          const res = await fetch(`${API_BASE_URL}/api/user/profile`, {
+            credentials: "include"
+          });
           if (!res.ok) window.location.href = "/index.html"; // Kick out if not logged in
           const user = await res.json();
           if (user.isAdmin) {
@@ -238,6 +239,7 @@
           window.location.href = "/index.html";
         }
       });
+
       function updateWalletAddress() {
         const type = document.getElementById("cryptoTypeSelect").value;
         const display = document.getElementById("targetWalletDisplay");
@@ -261,9 +263,10 @@
         }
 
         try {
-          const res = await fetch("/api/user/deposit", {
+          const res = await fetch(`${API_BASE_URL}/api/user/deposit`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify({ amount, cryptoType, txHash }),
           });
           const data = await res.json();

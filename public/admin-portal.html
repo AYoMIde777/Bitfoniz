@@ -56,7 +56,9 @@
     <script>
       window.addEventListener("DOMContentLoaded", async () => {
         try {
-          const res = await fetch("/api/user/profile");
+          const res = await fetch(`${API_BASE_URL}/api/user/profile`, {
+            credentials: "include"
+          });
           if (!res.ok) {
             window.location.href = "/index.html";
             return;
@@ -74,7 +76,9 @@
 
       async function loadAdminDeposits() {
         try {
-          const res = await fetch("/api/admin/deposits");
+          const res = await fetch(`${API_BASE_URL}/api/admin/deposits`, {
+            credentials: "include"
+          });
           if (res.ok) {
             const clients = await res.json();
             const tbody = document.getElementById("adminDepositTableBody");
@@ -111,7 +115,10 @@
 
       async function approveDeposit(userId, txId) {
         try {
-          const res = await fetch(`/api/admin/deposit/${userId}/${txId}/approve`, { method: "PUT" });
+          const res = await fetch(`${API_BASE_URL}/api/admin/deposit/${userId}/${txId}/approve`, { 
+            method: "PUT",
+            credentials: "include"
+          });
           const data = await res.json();
           if (res.ok) {
             alert(data.message);
