@@ -9,6 +9,13 @@ require("dotenv").config();
 const User = require("./models/User");
 
 const app = express();
+const cors = require('cors');
+const app = express();
+
+app.use(cors({
+  origin: true, // Or put your exact Netlify frontend URL here
+  credentials: true // MANDATORY so your JWT authentication cookie can be sent back and forth
+}));
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || "bitfoniz_institutional_secret_2026";
 
