@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Client Portal | Bitfoniz Holdings</title>
+    <link rel="stylesheet" href="bitfoniz.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body style="background-color: var(--bg-light)">
+    <!-- Portal Navigation Bar -->
+    <header
+      style="
+        background: #fff;
+        border-bottom: 1px solid var(--border-color);
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      "
+    >
+      <div class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-cube"></i></div>
+        <div class="logo-text">
+          <h2>Bitfoniz</h2>
+          <span>HOLDINGS PORTAL</span>
+        </div>
+      </div>
+      <button class="btn btn-outline" onclick="logoutUser()">
+        Log Out <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+    </header>
+
+    <!-- Main Client Dashboard Content -->
+    <main class="container" style="padding: 40px 20px; max-width: 1000px">
+      <div style="margin-bottom: 30px">
+        <h1 style="color: var(--primary-deep); font-size: 1.8rem">
+          Welcome back, <span id="clientWelcomeName">Investor</span>
+        </h1>
+        <p style="color: var(--text-muted)">
+          Manage your agro-based portfolio assets and 22% flexible liquidity
+          tier.
+        </p>
+      </div>
+
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 24px;
+        "
+      >
+        <!-- Account Overview Card -->
+        <div
+          style="
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+          "
+        >
+          <h3 style="margin-bottom: 20px; color: var(--primary-deep)">
+            <i class="fa-solid fa-wallet"></i> Portfolio Overview
+          </h3>
+          <p style="margin-bottom: 10px">
+            <strong>Email:</strong> <span id="clientEmailDisplay">-</span>
+          </p>
+          <p style="margin-bottom: 10px">
+            <strong>Active Balance:</strong> $<span
+              id="clientBalanceDisplay"
+              style="
+                font-size: 1.4rem;
+                color: var(--primary-blue);
+                font-weight: 700;
+              "
+              >0.00</span
+            >
+          </p>
+          <p style="margin-bottom: 20px">
+            <strong>Liquidity Status:</strong> 22% Flexible Available
+          </p>
+          <div
+            style="
+              background: var(--accent-glow);
+              padding: 12px;
+              border-radius: 8px;
+              font-size: 0.85rem;
+              color: var(--primary-deep);
+            "
+          >
+            <i class="fa-solid fa-circle-info"></i> Returns are compounded daily
+            through fixed trade signals and agricultural yields.
+          </div>
+        </div>
+
+        <!-- Deposit Card -->
+        <!-- Secure Payment Gateway Card -->
+        <div
+          style="
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+          "
+        >
+          <h3 style="margin-bottom: 20px; color: var(--primary-deep)">
+            <i class="fa-solid fa-shield-halved"></i> Secure Payment Gateway
+          </h3>
+
+          <div class="form-group" style="margin-bottom: 15px">
+            <label style="font-size: 0.85rem; font-weight: 600"
+              >Select Cryptocurrency</label
+            >
+            <select
+              id="cryptoTypeSelect"
+              onchange="updateWalletAddress()"
+              style="
+                width: 100%;
+                padding: 10px;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                margin-top: 5px;
+              "
+            >
+              <option value="USDT">USDT (TRC20)</option>
+              <option value="BTC">Bitcoin (BTC)</option>
+              <option value="ETH">Ethereum (ERC20)</option>
+            </select>
+          </div>
+
+          <div
+            style="
+              background: #f8fafc;
+              padding: 15px;
+              border-radius: 8px;
+              border: 1px solid var(--border-color);
+              margin-bottom: 15px;
+            "
+          >
+            <p
+              style="
+                font-size: 0.8rem;
+                color: var(--text-muted);
+                margin-bottom: 5px;
+              "
+            >
+              Send funds to this institutional address:
+            </p>
+            <div
+              id="targetWalletDisplay"
+              style="
+                font-family: monospace;
+                font-size: 0.85rem;
+                word-break: break-all;
+                font-weight: 700;
+                color: var(--primary-deep);
+              "
+            >
+              TF19xK9vL3mQ8s2vY5nB7wX4z1aC6dE8hJ
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 15px">
+            <label style="font-size: 0.85rem; font-weight: 600"
+              >Deposit Amount ($ USD)</label
+            >
+            <input
+              type="number"
+              id="depositAmountInput"
+              placeholder="12000"
+              style="
+                width: 100%;
+                padding: 10px;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                margin-top: 5px;
+              "
+            />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 20px">
+            <label style="font-size: 0.85rem; font-weight: 600"
+              >Transaction Hash / Proof ID</label
+            >
+            <input
+              type="text"
+              id="txHashInput"
+              placeholder="e.g. 0x4f8a9...b12c"
+              style="
+                width: 100%;
+                padding: 10px;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                margin-top: 5px;
+              "
+            />
+          </div>
+
+          <button
+            class="btn btn-primary btn-block"
+            onclick="submitRealDeposit()"
+            style="width: 100%"
+          >
+            Submit Payment for Verification
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+      // Protect page and load client data on entry
+      window.addEventListener("DOMContentLoaded", async () => {
+        try {
+          const res = await fetch("/api/user/profile");
+          if (!res.ok) window.location.href = "/index.html"; // Kick out if not logged in
+          const user = await res.json();
+          if (user.isAdmin) {
+            window.location.href = "/admin-portal.html"; // Redirect admins to their own portal
+            return;
+          }
+          document.getElementById("clientWelcomeName").textContent = user.name;
+          document.getElementById("clientEmailDisplay").textContent =
+            user.email;
+          document.getElementById("clientBalanceDisplay").textContent = (
+            user.balance || 0
+          ).toLocaleString();
+        } catch (err) {
+          window.location.href = "/index.html";
+        }
+      });
+      function updateWalletAddress() {
+        const type = document.getElementById("cryptoTypeSelect").value;
+        const display = document.getElementById("targetWalletDisplay");
+        if (type === "USDT") {
+          display.textContent = "TF19xK9vL3mQ8s2vY5nB7wX4z1aC6dE8hJ (TRC20)";
+        } else if (type === "BTC") {
+          display.textContent = "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh";
+        } else {
+          display.textContent = "0x71C...B29a (ERC20)";
+        }
+      }
+
+      async function submitRealDeposit() {
+        const cryptoType = document.getElementById("cryptoTypeSelect").value;
+        const amount = document.getElementById("depositAmountInput").value;
+        const txHash = document.getElementById("txHashInput").value.trim();
+
+        if (!amount || !txHash) {
+          alert("Please fill in both the amount and your transaction hash.");
+          return;
+        }
+
+        try {
+          const res = await fetch("/api/user/deposit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount, cryptoType, txHash }),
+          });
+          const data = await res.json();
+          if (res.ok) {
+            alert(data.message);
+            document.getElementById("depositAmountInput").value = "";
+            document.getElementById("txHashInput").value = "";
+          } else {
+            alert(data.error);
+          }
+        } catch (err) {
+          alert("Network error submitting deposit.");
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Monitoring Desk | Bitfoniz Holdings</title>
+    <link rel="stylesheet" href="bitfoniz.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body style="background-color: var(--bg-light)">
+    <header style="background: #fff; border-bottom: 1px solid var(--border-color); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
+      <div class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="logo-text">
+          <h2>Bitfoniz</h2>
+          <span>ADMIN MONITORING DESK</span>
+        </div>
+      </div>
+      <button class="btn btn-outline" onclick="logoutUser()">
+        Log Out <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+    </header>
+
+    <main class="container" style="padding: 40px 20px; max-width: 1200px">
+      <div style="margin-bottom: 30px">
+        <h1 style="color: var(--primary-deep); font-size: 1.8rem">Institutional Oversight</h1>
+        <p style="color: var(--text-muted)">Monitor registered client portfolios, track verified capitals, and manage user allocations.</p>
+      </div>
+
+      <div style="background: #fff; padding: 30px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);">
+        <h3 style="margin-bottom: 20px; color: var(--primary-deep)">
+          <i class="fa-solid fa-money-bill-transfer"></i> Client Deposit Verification Queue
+        </h3>
+        <div style="overflow-x: auto">
+          <table style="width: 100%; border-collapse: collapse">
+            <thead>
+              <tr style="background: #f8fafc; text-align: left">
+                <th style="padding: 14px; border-bottom: 2px solid var(--border-color);">Client</th>
+                <th style="padding: 14px; border-bottom: 2px solid var(--border-color);">Amount</th>
+                <th style="padding: 14px; border-bottom: 2px solid var(--border-color);">Asset</th>
+                <th style="padding: 14px; border-bottom: 2px solid var(--border-color);">Tx Hash</th>
+                <th style="padding: 14px; border-bottom: 2px solid var(--border-color);">Status</th>
+                <th style="padding: 14px; border-bottom: 2px solid var(--border-color);">Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminDepositTableBody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", async () => {
+        try {
+          const res = await fetch("/api/user/profile");
+          if (!res.ok) {
+            window.location.href = "/index.html";
+            return;
+          }
+          const user = await res.json();
+          if (!user.isAdmin) {
+            window.location.href = "/client-portal.html";
+            return;
+          }
+          loadAdminDeposits();
+        } catch (err) {
+          window.location.href = "/index.html";
+        }
+      });
+
+      async function loadAdminDeposits() {
+        try {
+          const res = await fetch("/api/admin/deposits");
+          if (res.ok) {
+            const clients = await res.json();
+            const tbody = document.getElementById("adminDepositTableBody");
+            let rows = "";
+
+            clients.forEach((client) => {
+              if (client.transactions && client.transactions.length > 0) {
+                client.transactions.forEach((tx) => {
+                  rows += `
+                    <tr>
+                        <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">${client.name} (${client.email})</td>
+                        <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight:700;">$${tx.amount.toLocaleString()}</td>
+                        <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">${tx.cryptoType}</td>
+                        <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-family:monospace; font-size:0.8rem;">${tx.txHash}</td>
+                        <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">
+                            <span style="padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; background: ${tx.status === "Approved" ? "#DEF7EC" : "#FEF3C7"}; color: ${tx.status === "Approved" ? "#03543F" : "#92400E"};">
+                                ${tx.status}
+                            </span>
+                        </td>
+                        <td style="padding: 12px; border-bottom: 1px solid var(--border-color);">
+                            ${tx.status === "Pending" ? `<button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.75rem;" onclick="approveDeposit('${client._id}', '${tx._id}')">Approve</button>` : "Completed"}
+                        </td>
+                    </tr>
+                  `;
+                });
+              }
+            });
+            tbody.innerHTML = rows || `<tr><td colspan="6" style="padding: 20px; text-align: center; color: var(--text-muted);">No pending deposit requests.</td></tr>`;
+          }
+        } catch (err) {
+          console.error("Failed to load deposits");
+        }
+      }
+
+      async function approveDeposit(userId, txId) {
+        try {
+          const res = await fetch(`/api/admin/deposit/${userId}/${txId}/approve`, { method: "PUT" });
+          const data = await res.json();
+          if (res.ok) {
+            alert(data.message);
+            loadAdminDeposits();
+          } else {
+            alert(data.error);
+          }
+        } catch (err) {
+          alert("Failed to process approval.");
+        }
+      }
+    </script>
+  </body>
+</html>
