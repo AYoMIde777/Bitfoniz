@@ -45,8 +45,7 @@
           Welcome back, <span id="clientWelcomeName">Investor</span>
         </h1>
         <p style="color: var(--text-muted)">
-          Manage your agro-based portfolio assets and 22% flexible liquidity
-          tier.
+          Manage your agro-based portfolio assets and secure institutional allocations.
         </p>
       </div>
 
@@ -85,7 +84,7 @@
             >
           </p>
           <p style="margin-bottom: 20px">
-            <strong>Liquidity Status:</strong> 22% Flexible Available
+            <strong>Account Status:</strong> <span style="color: #10B981; font-weight: 700;">Active / Verified</span>
           </p>
           <div
             style="
@@ -101,7 +100,7 @@
           </div>
         </div>
 
-        <!-- Deposit Card -->
+        <!-- Deposit Card (USDT TRC20 Exclusive) -->
         <div
           style="
             background: #fff;
@@ -117,23 +116,23 @@
 
           <div class="form-group" style="margin-bottom: 15px">
             <label style="font-size: 0.85rem; font-weight: 600"
-              >Select Cryptocurrency</label
+              >Accepted Asset & Network</label
             >
-            <select
-              id="cryptoTypeSelect"
-              onchange="updateWalletAddress()"
+            <div
               style="
                 width: 100%;
                 padding: 10px;
+                background: #f1f5f9;
                 border: 1px solid var(--border-color);
                 border-radius: 8px;
                 margin-top: 5px;
+                font-weight: 700;
+                color: var(--primary-deep);
+                font-size: 0.9rem;
               "
             >
-              <option value="USDT">USDT (TRC20)</option>
-              <option value="BTC">Bitcoin (BTC)</option>
-              <option value="ETH">Ethereum (ERC20)</option>
-            </select>
+              USDT (Network: TRC20)
+            </div>
           </div>
 
           <div
@@ -152,7 +151,7 @@
                 margin-bottom: 5px;
               "
             >
-              Send funds to this institutional address:
+              Send funds to this institutional TRC20 address:
             </p>
             <div
               id="targetWalletDisplay"
@@ -164,7 +163,7 @@
                 color: var(--primary-deep);
               "
             >
-              TF19xK9vL3mQ8s2vY5nB7wX4z1aC6dE8hJ
+              TP5hpmiztfVFwywY3NiHmTwKxXAfVMrifs
             </div>
           </div>
 
@@ -223,10 +222,10 @@
           const res = await fetch(`${API_BASE_URL}/api/user/profile`, {
             credentials: "include"
           });
-          if (!res.ok) window.location.href = "/index.html"; // Kick out if not logged in
+          if (!res.ok) window.location.href = "/index.html"; 
           const user = await res.json();
           if (user.isAdmin) {
-            window.location.href = "/admin-portal.html"; // Redirect admins to their own portal
+            window.location.href = "/admin-portal.html"; 
             return;
           }
           document.getElementById("clientWelcomeName").textContent = user.name;
@@ -240,20 +239,8 @@
         }
       });
 
-      function updateWalletAddress() {
-        const type = document.getElementById("cryptoTypeSelect").value;
-        const display = document.getElementById("targetWalletDisplay");
-        if (type === "USDT") {
-          display.textContent = "TF19xK9vL3mQ8s2vY5nB7wX4z1aC6dE8hJ (TRC20)";
-        } else if (type === "BTC") {
-          display.textContent = "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh";
-        } else {
-          display.textContent = "0x71C...B29a (ERC20)";
-        }
-      }
-
       async function submitRealDeposit() {
-        const cryptoType = document.getElementById("cryptoTypeSelect").value;
+        const cryptoType = "USDT (TRC20)";
         const amount = document.getElementById("depositAmountInput").value;
         const txHash = document.getElementById("txHashInput").value.trim();
 
