@@ -867,3 +867,50 @@ input, select {
         bottom: 70px;
     }
 }
+/* --- Header & Mobile Button Responsiveness Fixes --- */
+.header .container {
+    width: 100%;
+}
+
+.nav-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allows items to wrap neatly on smaller screens */
+    gap: 12px;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Tablet & Mobile Breakpoints */
+@media (max-width: 968px) {
+    .navbar {
+        display: none; /* Hides desktop links on mobile */
+    }
+}
+
+@media (max-width: 576px) {
+    .header {
+        padding: 12px 0;
+    }
+
+    .logo-text h2 {
+        font-size: 1.1rem;
+    }
+
+    .logo-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    /* Make top navigation buttons scale cleanly and remain fully clickable on small phones */
+    .nav-actions .btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+}
